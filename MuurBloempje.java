@@ -28,7 +28,8 @@ public class MuurBloempje extends Robot {
 
 		// Initialize peek to false
 		peek = false;
-		int currentWall = 0;
+		int currentWall = nearestWall();
+		
 		moveToWall(currentWall);
 		// Turn the gun to turn right 90 degrees.
 		peek = true;
@@ -81,20 +82,30 @@ public class MuurBloempje extends Robot {
     private double distanceToWall(int wallIndicator) {
         //How far to keep from the walls.
         double pad = 36;
-		
         double[] distances = {
 			getBattleFieldHeight() - (getY() + pad), //north
 			getBattleFieldWidth()  - (getX() + pad), //east
 			getY() - pad, //south
 			getX() - pad,//west
 		};
-
-		// Initialize moveAmount to the maximum possible for this battlefield.
 		return distances[wallIndicator];
 	}
 	
     private double angleToWall(int wallIndicator) {
 		int[] angles = {0,90,180,270};
 		return angles[wallIndicator] - getHeading();
+	}
+	
+    private int nearestWall() {
+      int nearest = 0;
+   	  double min = Math.max(getBattleFieldWidth(), getBattleFieldHeight());
+	  for(int wall = 0; wall <= 3; wall++) {
+		 if (distanceToWall(wall) <= min) {
+			min = distanceToWall(wall);
+		 	nearest = wall;
+			System.out.println("min: " + min + " wall: " + wall);
+         }
+	  }
+	  return nearest;
 	}
 }
