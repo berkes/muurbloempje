@@ -57,7 +57,7 @@ public class MuurBloempje extends Robot {
 			back(100);
 		} // else he's in back of us, so set ahead a bit.
 		else {
-			ahead(100);
+			drunkAhead(100);
 		}
 	}
 
@@ -73,10 +73,36 @@ public class MuurBloempje extends Robot {
 			scan();
 		}
 	}
+
+     //TODO: find out how to send arbitrary messages. Lazy now.	
+    private void drunkAhead(double distance) {
+	   double angle = 0.0;
+	   int sign = -1;
+       double startX = getX();
+	   double startY = getY();
+	   double traveledY = 0;
+	   double traveledX = 0;
+	   	  
+	   if(Math.random() > 0.5) {
+		   // sign = -1;
+	   }
+	   
+       while ((traveledY < distance) && (traveledX < distance)) {
+		   angle = (Math.random() * 45);
+		   turnLeft(angle * sign);  
+	       ahead(distance/2);
+		   
+	       turnRight(angle * sign);
+		   ahead(distance/2);
+		   
+           traveledX = Math.abs(startX - getX());
+           traveledY = Math.abs(startY - getY());		   
+	   }
+	}
 	
     private void moveToWall(int wallIndicator) {
 		turnRight(angleToWall(wallIndicator));
-		ahead(distanceToWall(wallIndicator));
+		drunkAhead(distanceToWall(wallIndicator));
 	}
 
     private double distanceToWall(int wallIndicator) {
